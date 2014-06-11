@@ -6,27 +6,28 @@
 *******************************************************************************/
 
 
-#include "iostream"
+#include <iostream>
+#include <string>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include  <X11/extensions/XTest.h>
+
+using namespace std;
+
 int main(int argc, char** argv)
 {
+	string str;
 	Display *display;
     unsigned int keycode[2];
     display = XOpenDisplay(NULL);
-    //getting Alt and F4 key codes
-    keycode[0] = XKeysymToKeycode(display, XK_Alt_L);
-    keycode[1] = XKeysymToKeycode(display, XK_F4);
-    //Pressing Alt
-    XTestFakeKeyEvent(display, keycode[0], True, 0);
-    //Pressing F4
-    XTestFakeKeyEvent(display, keycode[1], True, 0);
-    //Releasing F4
-    XTestFakeKeyEvent(display, keycode[1], False, 0);
-    //Releasing Alt
-    XTestFakeKeyEvent(display, keycode[0], False, 0);
-    XFlush(display);
-	
+		for(int i=0;argv[1][i]!=0;i++){
+			if(argv[1][i]!=' '){
+			keycode[0] = XKeysymToKeycode(display, XK_A+(argv[1][i]-'a'));
+			XTestFakeKeyEvent(display, keycode[0], True, 0);
+			XTestFakeKeyEvent(display, keycode[0], False, 0);
+		}
+			
+		}
+	XFlush(display);
 	return 0;
 }
